@@ -36,4 +36,4 @@ you want to avoid. The skill uses this only to RANK the issues your
 rubric accepts, never to change a verdict: fit cannot rescue an issue
 your rubric rejects, and cannot sink one it accepts. -->
 
-(Write a few sentences here.)
+I have experience with Python, Java, JavaScript, React, and basic web development. I am comfortable with documentation changes, small bug fixes, and test-related tasks. I want to get better at contributing to real software repositories and understanding existing codebases. For a first issue, I prefer work that is clearly scoped and can be completed in a few hours.
