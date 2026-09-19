@@ -18,69 +18,42 @@ https://github.com/codepath/pathreview-ai301-fa26-s3/issues/73
 
 **Verdict output**
 
-I'll load the issue-select skill to grade these against the rubric.
+Mode: live, single candidate. Scope confirmed — issue is in
+codepath/pathreview-ai301-fa26-s3, the only scoped source.
 
-● Skill(issue-select)
-Successfully loaded skill
+- maintainer-active — pass. Last default-branch commit 2026-09-16 by
+  Aburke225, a non-bot, 2 days before the capture date; the issue's own
+  author carries COLLABORATOR.
+- repo-active — pass. archived: false, pushed_at: 2026-09-16, well inside
+  180 days. (No releases exist; the last-push limb of the condition carries
+  it.)
+- newcomer-scope — pass. One stated outcome — "Make the two files agree" —
+  over two named files, est. 1–2 hours, no open design decision and no
+  core-internals warning.
+- unclaimed — pass. No assignee, 0 comments, and the repo contains no pull
+  requests in any state.
+- contribution-policy — pass. docs/CONTRIBUTING.md sets conditions
+  (conventional commits, green CI, xfail-marker removal) but states no ban
+  on AI-assisted contributions.
 
-I'll read the skill's scope and rubric first.
+Every required check passes, so the verdict rule accepts. This is the
+cleanest of the candidates graded: docs-only, tier-1, good first issue, and
+no test harness or xfail marker to untangle.
 
-  Read 3 files, ran 2 shell commands
+```json
+{
+  "item": "https://github.com/codepath/pathreview-ai301-fa26-s3/issues/73",
+  "checks": [
+    {"name": "maintainer-active", "grade": "pass", "evidence": "Last default-branch commit 2026-09-16 by non-bot Aburke225, 2 days before capture; issue opened by Aburke225 (COLLABORATOR)."},
+    {"name": "repo-active", "grade": "pass", "evidence": "Repo archived: false; pushed_at 2026-09-16, within 180 days of capture."},
+    {"name": "newcomer-scope", "grade": "pass", "evidence": "Single outcome 'Make the two files agree' across README.md and .env.example; est. 1-2 hours, no unresolved design decision."},
+    {"name": "unclaimed", "grade": "pass", "evidence": "assignees: none; 0 comments; repo has no pull requests in any state."},
+    {"name": "contribution-policy", "grade": "pass", "evidence": "docs/CONTRIBUTING.md sets CI/commit conditions only; no AI-contribution ban stated."}
+  ],
+  "verdict": "accept"
+}
+```
 
-No gh CLI — I'll use the GitHub REST API directly.
-
-  Ran 5 shell commands
-
-Mode: live. Scope confirmed — all thw-ai301-fa26-s3, the scoped repo.Path Review house rule applied (classmate claim comments do not block).                 
-One gap: scope.md's fit profile is still the placeholder (Write a few sentences here.). der accepted issues, never change cts stand as graded — but the ranking below falls back to the issues' own tier/label/effort signals rather than your preferencat section if you want a ranking tared evidence (all three candidate
-- Last default-branch commit: 2026-09-16 by Aburke225 (non-bot) — 2 days before today → maintainer-active passes.
-- Repo archived: false, pushed_at: 2026-09-16 → repo-active passes. (No releases published; last-push limb satisfies the check.)
-- docs/CONTRIBUTING.md sets workflow/CI conditions, states no AI ban → contribution-policy passes.
-- No pull requests exist in the repopty) → no linked or mentioned PRsanywhere.
-
-Ranked read-out — 3 accepted, 0 rejected:
-
-1. #73 — README / .env.example LLM key disagreement. tier-1, good first issue, docs-only two-file
-   edit, 1–2 h, zero comments. Lowesarness, no xfail marker, no classmate activity.
-2. #68 — ZeroDivisionError on empty irst issue, but 2–4 h and includesremoving a strict=True xfail marker. A classmate (acordero4852, association NONE) posted an investigation comment on 2026-09-t is not a claim, so unclaimedpasses; claim it yourself anyway.
-3. #71 — indented heading-hierarchy l-specified, but tier-2 and carriesno good first issue label, so it ranks last on newcomer-friendliness despite the 1–2 h estimate.
-
-json
-[
-  {
-    "item": "https://github.com/code/issues/73",
-    "checks": [
-      {"name": "maintainer-active", "Last default-branch commit2026-09-16 by non-bot Aburke225, 2 days before capture; issue opened by Aburke225 (COLLABORATOR)."},
-      {"name": "repo-active", "gradearchived: false; pushed_at2026-09-16, within 180 days."},
-      {"name": "newcomer-scope", "gre outcome: 'Make the two files agree' across README.md and .env.example; est. 1-2 hours, no open design question."},
-      {"name": "unclaimed", "grade":es: none; 0 comments; repo has nopull requests in any state."},
-      {"name": "contribution-policy": "docs/CONTRIBUTING.md setsCI/testing conditions only; no AI-contribution ban stated."}
-    ],
-    "verdict": "accept"
-  },
-  {
-    "item": "https://github.com/code/issues/68",
-    "checks": [
-      {"name": "maintainer-active", "Last default-branch commit2026-09-16 by non-bot Aburke225; issue author Aburke225 is COLLABORATOR."},
-      {"name": "repo-active", "gradearchived: false; pushed_at2026-09-16, within 180 days."},
-      {"name": "newcomer-scope", "grncrete bug: 'index([]) raisesZeroDivisionError' plus remove the H-01 xfail marker; two named files, est. 2-4 hours."},
-      {"name": "unclaimed", "grade":gnee and no PRs exist; sole commentis classmate acordero4852 (association NONE), which the Path Review house rule says does not block."},
-      {"name": "contribution-policy": "docs/CONTRIBUTING.md requiresgreen CI and xfail-marker removal but does not ban AI-assisted work."}
-    ],
-    "verdict": "accept"
-  },
-  {
-    "item": "https://github.com/code/issues/71",
-    "checks": [
-      {"name": "maintainer-active", "Last default-branch commit2026-09-16 by non-bot Aburke225, within 90 days."},
-      {"name": "repo-active", "gradearchived: false; pushed_at2026-09-16, within 180 days."},
-      {"name": "newcomer-scope", "grngle specified fix: 'Remove theindentation' in test_extract_heading_hierarchy plus drop the H-04 xfail marker; est. 1-2 hours."},
-      {"name": "unclaimed", "grade":es: none; 0 comments; no linked ormentioned PRs."},
-      {"name": "contribution-policy": "docs/CONTRIBUTING.md imposesconditions (conventional commits, green CI), no AI ban."}
-    ],
-    "verdict": "accept"
-  }
-]
 ---
 
 ## Eval iterations
