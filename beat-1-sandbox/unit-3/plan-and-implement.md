@@ -1,4 +1,4 @@
-# Unit 3 — Plan and Build
+﻿# Unit 3 â€” Plan and Build
 
 Path: `beat-1-sandbox/unit-3/plan-and-implement.md`
 
@@ -15,17 +15,21 @@ label is not graded.
 
 **GitHub username**
 
-[Your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comment upstream is identified by this name, and it is
-the only thing that ties it to you. Several students may plan the same
-house issue, so this is what keeps their comments off your score and
-yours off theirs.]
+Disha-k-gowda
 
 **Plan comment**
 
-[Link to the comment where you posted your plan on the issue. Use the comment's own
-permalink. **Then paste the text of that comment underneath the link** — the pasted text is
-what this field is graded on, so copy across what you actually posted.]
+https://github.com/codepath/pathreview-ai301-fa26-s3/issues/73#issuecomment-5961104050
+
+Plan for #73 based on the reproduction I posted earlier.
+
+The reproduction showed that `README.md:24` and `docs/SETUP.md:47` tell users to configure `OPENROUTER_API_KEY`, but `.env.example` contains `LLM_PROVIDER=mock` and `OPENAI_API_KEY` without an `OPENROUTER_API_KEY` entry. `core/config.py` already defines `openrouter_api_key`, so the example environment file does not expose the variable referenced by the setup instructions.
+
+I plan to update `.env.example` only by adding an `OPENROUTER_API_KEY` placeholder beside the existing LLM configuration. I will keep `LLM_PROVIDER=mock` and the existing `OPENAI_API_KEY` entry unchanged.
+
+I am not changing `README.md`, `docs/SETUP.md`, `core/config.py`, or runtime provider-selection behavior. My investigation did not establish that `openrouter` is currently wired as a selectable `LLM_PROVIDER` value, so I will not document that value as supported as part of this fix.
+
+For verification, I will repeat the reproduction checks and confirm that copying `.env.example` produces an environment file containing `OPENROUTER_API_KEY`, while the existing `LLM_PROVIDER=mock` and `OPENAI_API_KEY` entries remain unchanged. I will also check the diff to make sure no unrelated files or settings changed.
 
 ---
 
@@ -33,15 +37,79 @@ what this field is graded on, so copy across what you actually posted.]
 
 **Branch**
 
-[The name of the branch you built the change on, exactly as it appears in your fork. The
-naming shape is a type prefix, then the issue number, then a short description. **The issue
-number in the branch name must be the number of the issue you claimed** — a name carrying
-any other number does not satisfy this field.]
+docs-73-add-openrouter-api-key
 
 **Evidence**
 
-[Your Unit 2 reproduction steps re-run against the built change: the before, then the
-after. Paste both, including the commands you ran and their output.]
+### Before
+
+Unit 2 reproduction was run against commit `2f4e82f52efbcfcc57d65b3fa5348672163ca088` on `main`.
+
+Commands:
+
+```powershell
+Select-String -Path README.md -Pattern "OPENROUTER_API_KEY|OPENAI_API_KEY|LLM_PROVIDER" -Context 2,2
+Select-String -Path .env.example -Pattern "OPENROUTER_API_KEY|OPENAI_API_KEY|LLM_PROVIDER" -Context 2,2
+Select-String -Path core/config.py -Pattern "OPENROUTER|OPENAI|LLM_PROVIDER" -Context 2,2
+Select-String -Path docs/SETUP.md -Pattern "OPENROUTER_API_KEY|OPENAI_API_KEY|LLM_PROVIDER" -Context 2,2
+```
+
+Observed output:
+
+```text
+README.md:24:# Configure environment (add your OPENROUTER_API_KEY to .env)
+
+.env.example:17:# Options: "mock" (default, no API key needed), "openai"
+.env.example:18:LLM_PROVIDER=mock
+.env.example:19:OPENAI_API_KEY=sk-your-key-here
+
+docs/SETUP.md:47:# Edit .env and set your OPENROUTER_API_KEY (required for AI features)
+
+core/config.py:18:llm_provider
+core/config.py:19:openai_api_key
+core/config.py:20:openrouter_api_key
+core/config.py:21:openrouter_base_url
+core/config.py:22:openrouter_model
+```
+
+Before the fix, the setup documentation instructed users to configure `OPENROUTER_API_KEY`, while `.env.example` did not contain that variable.
+
+### After
+
+After implementing the change on `docs-73-add-openrouter-api-key`, I reran the configuration checks.
+
+Observed output:
+
+```text
+README.md:24:# Configure environment (add your OPENROUTER_API_KEY to .env)
+.env.example:17:# Options: "mock" (default, no API key needed), "openai"
+.env.example:18:LLM_PROVIDER=mock
+.env.example:19:OPENAI_API_KEY=sk-your-key-here
+.env.example:20:OPENROUTER_API_KEY=sk-or-your-key-here
+docs\SETUP.md:47:# Edit .env and set your OPENROUTER_API_KEY (required for AI features)
+core\config.py:18:llm_provider
+core\config.py:19:openai_api_key
+core\config.py:20:openrouter_api_key
+core\config.py:21:openrouter_base_url
+```
+
+I also copied the built `.env.example` and checked the resulting environment file:
+
+```powershell
+Copy-Item .env.example .env.unit3-test
+Select-String -Path .env.unit3-test -Pattern "LLM_PROVIDER|OPENAI_API_KEY|OPENROUTER_API_KEY"
+Remove-Item .env.unit3-test
+```
+
+Output:
+
+```text
+.env.unit3-test:18:LLM_PROVIDER=mock
+.env.unit3-test:19:OPENAI_API_KEY=sk-your-key-here
+.env.unit3-test:20:OPENROUTER_API_KEY=sk-or-your-key-here
+```
+
+The built change therefore adds the missing `OPENROUTER_API_KEY` placeholder while preserving the existing `LLM_PROVIDER=mock` and `OPENAI_API_KEY` entries.
 
 ## Eval iterations
 
@@ -50,30 +118,42 @@ fields.
 
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+1. First full evaluation: 18/20 agreement. The mismatches were `pkg-05`, which failed `unknowns-honest`, and `pkg-14`, which failed `executable`.
+
+2. After revising those checks, I reran `pkg-05` and `pkg-14` together with `pkg-10` and `pkg-17` as canaries using `--only`. The targeted run matched 4/4 packages.
+
+3. Final full evaluation saved to `eval-run.txt`: 19/20 agreement. Category results were `clear-accept` 6/7, `scope-creep` 4/4, `thread-convention` 2/2, `unbuildable` 3/3, and `wrong-cause` 4/4. The only mismatch was `pkg-05`, where the gold label was accept and the rubric returned reject because `unknowns-honest` failed.
 
 **Package analysis**
 
-[Pick one scored package (`pkg-01` through `pkg-20` — the four `calib-` packages are never
-scored). Name it by id, say what your rubric decided and what the gold label said, and
-explain why your rubric read it that way.]
+`pkg-05` was the only mismatch in the final full evaluation. The gold verdict was `accept`, while my rubric returned `reject` because `unknowns-honest` failed. The check treated the package as containing a material uncertainty that should have been identified or resolved explicitly. I kept the check rather than weakening it further because the final rubric already reached 19/20 overall agreement and passed every category floor, while still protecting against plans that present unresolved material assumptions as established facts.
 
 **Check rationale**
 
-[Quote one check from the `rubric.md` you uploaded to `tools/plan-check/`, exactly as it reads now.
-Then say why it reads that way — what you revised to get there, or what you rejected in
-favour of it.]
+I focused on the `unknowns-honest` check:
+
+> Pass when any material uncertainty is either identified as an unknown/risk or resolved by evidence already present in the package. A plan does not need to invent an unknown when the available evidence reveals no unresolved material assumption. Fail when the plan presents an unresolved material assumption as established fact and that assumption could change the implementation or test strategy.
+
+I revised this check after the first full evaluation because the earlier wording could penalize a plan simply for not listing an unknown, even when the available evidence had already resolved the relevant uncertainty. The revised wording makes the threshold more concrete: a plan passes when material uncertainty is either disclosed or resolved by evidence, and fails only when an unresolved material assumption is presented as fact in a way that could affect implementation or testing.
 
 **Trade-offs**
 
-[Every check gives something up. Any one of these is a complete answer: a package whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+After revising `unknowns-honest` and `executable`, I reran the two affected packages, `pkg-05` and `pkg-14`, together with `pkg-10` and `pkg-17` as canaries. That targeted run matched 4/4. On the final full run, however, `pkg-05` again produced a reject instead of the gold accept, leaving the final score at 19/20.
+
+I chose not to loosen `unknowns-honest` further just to make `pkg-05` pass. Doing so could allow genuinely unresolved material assumptions to pass the rubric. The trade-off is one remaining false rejection in exchange for keeping a stricter check on assumptions that could change the implementation or test strategy. The final rubric still exceeded the 18/20 target and met every category floor.
 
 ---
 
 Related paths: `plan.md` and `eval-run.txt` in this directory; your skill's files in
 `tools/plan-check/`.
+
+
+
+
+
+
+
+
+
+
+
