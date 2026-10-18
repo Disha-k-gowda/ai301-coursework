@@ -24,47 +24,21 @@ just numbers them.
 
 ## Toolkit
 
-Every story section below, from Why I Chose This Issue through Pull
-Request, ends with a Toolkit block: which tool did that phase's work
-and how you used it, what it produced, what difficulties or
-shortcomings it presented, and what you changed or would change
-because of them. Together the blocks are the thread the rubric's
-Toolkit points read, and they are the raw material for your unit-9
-portfolio, so keep them current as you work rather than
-reconstructing them later.
-
-A Toolkit block looks like this (copy it into each story section and
-fill it there):
-
-```text
-**Toolkit**
-
-- Tool: [which tool did this phase's work, and how you used it]
-- What it produced: [described in a sentence or a short excerpt]
-- Difficulties: [what fought you or fell short, or "none met"]
-- What changed: [the patch, revision, or workaround, what you would
-  update, or "nothing"]
-```
-
-This section also keeps one short dated entry per week of tool work,
-starting below: what you built or changed that week, what broke, and
-what you changed because of it. The blocks tell the story where it
-happened; these entries are the toolkit's own timeline.
-
-All four entries are graded. Keep every heading below, and fill each
-one in the week it belongs to.
+Each story section below, from Why I Chose This Issue through Pull Request, ends with a
+Toolkit block recording which tool did that phase's work, what it produced, what fell
+short, and what I changed because of it. The dated entries below are the toolkit's own
+weekly timeline: what I built or changed, what broke, and how I responded.
 
 **Unit 5: Wrote my issue-scout search strategy and patched the rubric after the first wild scan**
 
-I wrote three `gh search` queries tied to my fit profile (Python and JavaScript
-good-first-issues, TypeScript help-wanted) plus ranking filters, and my first scan on
-2026-10-17 pulled 300 issues, kept 255 after dropping assigned and translation issues, and
-graded the top 5 as four accepts and one reject. The rubric accepted
-yfridelance/shelly-manager#7 even though it can only be tested on a real Gen1 Shelly device,
-which my profile says to avoid. I added a newcomer-scope fail condition for work that needs
-physical hardware unless the issue says a mock or emulator is enough, logged it in
-scan-notes.md without rerunning the scan, and noted that all five top results tied at 0
-comments, so update time picked brand-new issues from tiny repos, a strategy fix still open.
+On 2026-10-17 I ran my first wild scan with three `gh search` queries tied to my fit profile
+(Python and JavaScript good-first-issues, TypeScript help-wanted): it pulled 300 issues, kept
+255 after dropping assigned and translation issues, and graded the top 5 as four accepts and
+one reject. One accept, yfridelance/shelly-manager#7, was a false positive because it can
+only be tested on a real Gen1 Shelly device, so I added a newcomer-scope fail condition for
+work that needs physical hardware unless a mock or emulator is enough, and logged the change
+in scan-notes.md without rerunning the scan. Search ranking is still an open problem: all
+five top results tied at 0 comments, so update time favored brand-new issues in tiny repos.
 I then claimed and graded Logixia/logixia#119 and sbt/website#553, and both passed the
 required checks.
 
@@ -107,19 +81,22 @@ https://github.com/sbt/website/issues/553#issuecomment-6243471487
 
 **Toolkit**
 
-- Tool: issue-scout, run first as a wild GitHub scan using my written search strategy and
-  rubric, then in direct URL grading mode on sbt/website#553 after I found it through the
-  CodePath tracker.
-- What it produced: The wild scan searched 300 issues, kept 255, and graded five (four
-  accepted, one rejected). Direct URL grading accepted sbt/website#553 against the rubric.
-- Difficulties: The rubric accepted yfridelance/shelly-manager#7, a false positive because
-  it can only be tested on a real Gen1 Shelly device, which my fit profile says to avoid.
-  Search ranking also fell short: all five top results tied at 0 comments, so update time
-  decided the order and pushed brand-new issues from tiny repos to the top.
-- What changed: I added a newcomer-scope fail condition to the rubric for work that needs
-  physical hardware unless the issue says a mock or emulator is enough. The search-ranking
-  limitation is still open; I would add a ranking signal beyond comments and update time,
-  such as repository activity, so ties do not favor brand-new issues in tiny repos.
+- Tool: issue-scout, used two ways:
+  - Wild GitHub scan, driven by my written search strategy and rubric.
+  - Direct URL grading of sbt/website#553, which I found through the CodePath tracker.
+- What it produced:
+  - Wild scan: 300 issues searched, 255 kept, 5 graded (4 accepted, 1 rejected).
+  - Direct URL grading: sbt/website#553 accepted against the rubric.
+- Difficulties:
+  - False positive: the rubric accepted yfridelance/shelly-manager#7, which can only be
+    tested on a real Gen1 Shelly device, and my fit profile says to avoid hardware work.
+  - Weak ranking: all five top results tied at 0 comments, so update time decided the
+    order and pushed brand-new issues from tiny repos to the top.
+- What changed:
+  - Fixed: added a newcomer-scope fail condition for work that needs physical hardware,
+    unless the issue says a mock or emulator is enough.
+  - Still open: search ranking. I would add a signal beyond comments and update time, such
+    as repository activity, so ties stop favoring brand-new issues in tiny repos.
 
 ---
 
