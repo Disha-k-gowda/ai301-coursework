@@ -55,10 +55,19 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: Wrote my issue-scout search strategy and patched the rubric after the first wild scan**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I wrote three `gh search` queries tied to my fit profile (Python and JavaScript
+good-first-issues, TypeScript help-wanted) plus ranking filters, and my first scan on
+2026-10-17 pulled 300 issues, kept 255 after dropping assigned and translation issues, and
+graded the top 5 as four accepts and one reject. The rubric accepted
+yfridelance/shelly-manager#7 even though it can only be tested on a real Gen1 Shelly device,
+which my profile says to avoid. I added a newcomer-scope fail condition for work that needs
+physical hardware unless the issue says a mock or emulator is enough, logged it in
+scan-notes.md without rerunning the scan, and noted that all five top results tied at 0
+comments, so update time picked brand-new issues from tiny repos, a strategy fix still open.
+I then claimed and graded Logixia/logixia#119 and sbt/website#553, and both passed the
+required checks.
 
 **Unit 6: [one line on the tool work]**
 
