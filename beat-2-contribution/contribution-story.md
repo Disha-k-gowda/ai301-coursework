@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: TestsListener link from Testing page is broken.
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -8,11 +8,10 @@ format criteria grade exactly that. Your course repo link is the whole submissio
 files and no evidence uploads are part of Assignment 5.
 
 **Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
-**Pull Request:** [GitHub PR link, once opened]
+**Student:** Disha Kempegowda
+**GitHub Username:** Disha-k-gowda
+**Issue:** https://github.com/sbt/website/issues/553
+**Pull Request:** Not opened yet
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -89,24 +88,38 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+My first issue-scout scan ran my three `gh search` queries across GitHub, pulled 300
+issues, kept 255 after filtering out assigned and translation issues, and graded the top
+five: four accepts and one reject. I did not pick this issue from that scan. I found
+sbt/website#553 separately through the CodePath tracker and ran it through issue-scout's
+direct URL grading mode, which accepted it against the same rubric. The issue is that the
+TestsListener link on the sbt Testing documentation page is broken, so the work is a small,
+well-defined documentation fix: find where the link should point and correct it.
+
+That size fits where I am as a software engineer making a first open-source contribution. I
+am comfortable reading and editing code and Markdown, but I have not yet been through a real
+project's contribution flow, so a scoped docs fix lets me focus on that flow instead of on a
+large code change. I hope to learn how the sbt website is built and organized, how to check
+my change locally before submitting it, and how to work with maintainers through review on
+an established project. As for the tool: the scout held up on this issue, but the wild scan
+showed two real gaps, which I describe in the Toolkit block below. Claim comment:
+https://github.com/sbt/website/issues/553#issuecomment-6243471487
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Tool: issue-scout, run first as a wild GitHub scan using my written search strategy and
+  rubric, then in direct URL grading mode on sbt/website#553 after I found it through the
+  CodePath tracker.
+- What it produced: The wild scan searched 300 issues, kept 255, and graded five (four
+  accepted, one rejected). Direct URL grading accepted sbt/website#553 against the rubric.
+- Difficulties: The rubric accepted yfridelance/shelly-manager#7, a false positive because
+  it can only be tested on a real Gen1 Shelly device, which my fit profile says to avoid.
+  Search ranking also fell short: all five top results tied at 0 comments, so update time
+  decided the order and pushed brand-new issues from tiny repos to the top.
+- What changed: I added a newcomer-scope fail condition to the rubric for work that needs
+  physical hardware unless the issue says a mock or emulator is enough. The search-ranking
+  limitation is still open; I would add a ranking signal beyond comments and update time,
+  such as repository activity, so ties do not favor brand-new issues in tiny repos.
 
 ---
 
