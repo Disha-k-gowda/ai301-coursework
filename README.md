@@ -15,7 +15,7 @@ check-in; graders open the folder for that unit's work.
   eval iterations behind the run) and `eval-run.txt`, one complete eval
   run written by the harness itself with `--save-run`. Unit 3's folder
   also holds your `plan.md`.
-- `beat-2-contribution/`: `contribution-story.md` is Assignment 5, the
+- `beat-2-contribution/`: [`contribution-story.md`](beat-2-contribution/contribution-story.md) is Assignment 5, the
   graded story of your real contribution, built across units 5-8 and
   submitted once. A second contribution is welcome and never graded: copy
   `extra-round-template.md` to `contribution-story-2.md`.

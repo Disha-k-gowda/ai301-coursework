@@ -2,7 +2,7 @@
 
 Path: `beat-2-contribution/contribution-story.md`
 
-**Contribution Number:** [1]
+**Contribution Number:** 1
 **Student:** Disha Kempegowda
 **GitHub Username:** Disha-k-gowda
 **Issue:** https://github.com/Logixia/logixia/issues/29
@@ -115,11 +115,43 @@ not guard the real submission. It is a retrospective check of the branch that sh
   [`evidence/unit7/unit7-gate-log.txt`](evidence/unit7/unit7-gate-log.txt) (the gate-log
   entry), each with a header recording the run.
 
-**Unit 8: Pending (PR-monitor and playbook)**
+**Unit 8: Installed the PR-monitor, wrote my playbook, and ran the monitor retrospectively
+on PR #51**
 
-Pending. As of 2026-10-18 I have not started the Unit 8 tool work. PR #51 merged on
-2026-10-23 (UTC) after one review comment, before the monitor existed, so no monitor ran
-on it.
+PR #51 merged on 2026-10-23 at 04:12:15 UTC, after one review comment, before I installed
+the monitor. So the monitor never watched the review period. The run below is a real run
+against the merged PR on 2026-10-23, not pre-merge monitoring.
+
+- Tool: the official Unit 8 PR-monitor (`~/.claude/pr-monitor/monitor.py`), which reads a
+  PR's live state through read-only `gh` calls and drafts a next move to a file, plus my
+  four-section playbook (Response rules, Staleness thresholds, Nudge etiquette, Walk-away
+  criteria). I built the playbook from my voice guide's Upstream rules. Its main policies:
+  - No nudge before 7 calendar days without maintainer activity. That is my chosen policy;
+    my only data point is PR #51's first maintainer comment, about 4.2 days after I opened
+    it.
+  - At most one nudge, and never on a merged or closed PR.
+  - Reassess after 21 quiet days following a nudge.
+  - I rewrite and post every public message myself.
+- What it produced: the free `--state` check found Logixia/logixia PR #51. One full run then
+  detected MERGED and selected the Merged follow-up form. It wrote `run-report.md` and
+  `drafted-move.md` and added a `[run]` entry to `monitor-log.md`. It exited with code 0.
+  The draft was a short thank-you to the reviewer that acknowledged their
+  `resolveInitialLevel()` note as a possible follow-up.
+- Difficulties: the draft needed checking against the real PR and issue.
+  - It suggested closing #29 "if it didn't auto-close", but #29 had already closed as
+    completed when the PR merged.
+  - It left an unresolved conditional placeholder ("[If the merged code still returns it as
+    written:]") in the message body.
+  - It called the reviewer's non-blocking readability note a "catch".
+  - The run report's check, mergeability, and review-decision values (1 failing check,
+    UNKNOWN, REVIEW_REQUIRED) were stale leftovers that GitHub stops updating after a merge,
+    not the PR's real state.
+- What changed: I reviewed the draft against PR #51 and issue #29 and decided not to post
+  it. The PR is merged, the issue is closed, the reviewer's note was explicitly not a
+  blocker, and a follow-up comment would add noise to a finished discussion. No GitHub
+  comment was posted. I kept the 7-day no-nudge rule and the one-nudge limit for future open
+  PRs. The monitor's working files stay on my machine; Assignment 5 asks for no monitor
+  output.
 
 ---
 
@@ -518,6 +550,23 @@ Installed the voice guard, switched to the wild scopes, patched the scout rubric
 `CLAUDE.local.md`. Graded #29 retrospectively (accept, moderate), drafted the claim I
 should have posted, reproduced the issue on both commits, and revised both drafts until
 repro-check accepted them. Nothing was posted.
+
+**2026-10-23: Unit 7 retrospective ship-gate run (after the merge)**
+
+Installed the official ship-gate, wrote a sourced `ship-manifest.md`, and prepared
+retrospective `plan.md`, `test_evidence.md`, and `pr_draft.md` (PR #51's merged
+description). Ran the gate once, through its manual doorway, against the already-merged
+`fix-level-validation-29` branch: PASS, with 5/5 manifest checks and 6/6 pr-precheck
+checks. The gate didn't exist when PR #51 was reviewed and merged, so it played no part in
+the merge.
+
+**2026-10-23: Unit 8 retrospective monitor run (after the merge)**
+
+Installed the official PR-monitor and wrote my four-section playbook. Ran the monitor once
+against PR #51, which was already merged: it detected MERGED and drafted a merged
+follow-up. I reviewed the draft against the PR and issue #29, and decided not to post it,
+because the PR was merged and #29 was closed. No comment was posted, and the monitor
+played no part in the merge.
 
 **Toolkit**
 
