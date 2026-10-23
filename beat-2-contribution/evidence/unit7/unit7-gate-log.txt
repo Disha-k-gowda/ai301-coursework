@@ -1,0 +1,32 @@
+# PUBLISHED COPY: local paths and session identifiers are redacted for privacy as
+# [LOCAL_PATH] and [SESSION_ID]. The original, unredacted output is retained locally.
+# Retrospective evidence, Unit 7 ship-gate
+# One manual-doorway run on 2026-10-23 (14:57:05 to 14:58:00, -07:00) against the
+# already-merged Logixia PR #51 (https://github.com/Logixia/logixia/pull/51; merged
+# 2026-10-23 04:12:15 UTC). Branch fix-level-validation-29 @ 7b8c920, base main @ 657e84e.
+# Command: python -X utf8 ~/.claude/ship-gate/check_gate.py --branch --base main
+#   --title "fix(config): validate and normalize log levels" --body-file pr_draft.md
+#   --plan plan.md --evidence test_evidence.md --issue https://github.com/Logixia/logixia/issues/29
+# No PR was created or modified. Source: [LOCAL_PATH]/.claude/ship-gate/gate-log.md (the only entry; whole file copied)
+# Everything below the ===== line is copied unchanged from the source (no redactions there).
+# The original gate log's trailing blank line was removed for Git whitespace compliance.
+# =====
+# ship-gate log (one dated block per run, both doorways; this file is your gate transcript)
+
+## 2026-10-23 14:58 [manual] Logixia/logixia @ fix-level-validation-29 (base main)
+
+- verdict: PASS
+- package: head 7b8c9205ff6876d21b0d3776b73c45e6dfda623d title 85c929f43471 body 16bcaf32d8e3 manifest dd27fbabb879
+- manifest checks:
+  - Type check: `npm run typecheck` -> ok (2s)
+  - Lint: `npm run lint` -> ok (10s)
+  - Issue #29 tests: `npx jest src/core/__tests__/level-validation.test.ts` -> ok (2s)
+  - Test suite without the Windows symlink test: `npx jest -t "^(?!isDirectRun is true when run through a symlink)"` -> ok (4s)
+  - Build: `npm run build` -> ok (7s)
+- pr-precheck checks:
+  - plan-fidelity [pass]: Diff touches only the two planned files; all four items implemented; extras (4 extra tests, namespace/env validation, LOGIXIA_LEVEL fall-through) are recorded as Deviations 1-3, and the local suite shortfall as Deviation 4.
+  - description-fidelity [pass]: Description's eight tests, warn-once, setLevel rejection, env fall-through, and '946 passed, 1 failed' all match the diff and test_evidence.md.
+  - test-evidence [pass]: Before/after table on 657e84e vs 7b8c920: setLevel('nope') gives "nope" with no warning before, "warn" with one warning after; DEBUG gives "DEBUG" before, "debug" after.
+  - repo-checks [pass]: typecheck and lint exit 0; npm test 946 passed, 1 failed (Windows EPERM symlink test), the same test fails on pre-fix 657e84e (938 passed, 1 failed), so unrelated and disclosed.
+  - diff-reviewable [pass]: Diff stat is 2 files, 261+/9-, every hunk tied to #29; the untracked 16.0.0, cd, dir, logixia/, type entries are not in main...HEAD.
+  - standards-compliant [pass]: Template sections present, 'Closes #29', Conventional Commits title, full-suite box honestly unchecked; no AI-disclosure requirement stated in CONTRIBUTING.md or the template.

@@ -1,0 +1,59 @@
+# PUBLISHED COPY: local paths and session identifiers are redacted for privacy as
+# [LOCAL_PATH] and [SESSION_ID]. The original, unredacted output is retained locally.
+# Retrospective evidence, Unit 7 ship-gate
+# One manual-doorway run on 2026-10-23 (14:57:05 to 14:58:00, -07:00) against the
+# already-merged Logixia PR #51 (https://github.com/Logixia/logixia/pull/51; merged
+# 2026-10-23 04:12:15 UTC). Branch fix-level-validation-29 @ 7b8c920, base main @ 657e84e.
+# Command: python -X utf8 ~/.claude/ship-gate/check_gate.py --branch --base main
+#   --title "fix(config): validate and normalize log levels" --body-file pr_draft.md
+#   --plan plan.md --evidence test_evidence.md --issue https://github.com/Logixia/logixia/issues/29
+# No PR was created or modified. Source: [LOCAL_PATH]/[SESSION_ID]/scratchpad/gate-run-1.txt
+# Everything below the ===== line is copied unchanged from the source, except the one line
+# marked [REDACTED: local paths], where only the two paths were replaced.
+# =====
+2026-10-23T14:57:05-07:00
+ship-gate: Logixia/logixia @ fix-level-validation-29 against main; voice guide followed the pointer line in [LOCAL_PATH]\.claude\skills\pr-precheck\voice-guide.md to [LOCAL_PATH]\.claude\voice-guard\voice-guide.md. [REDACTED: local paths]
+ship-gate: repo check 1/5 `Type check`: npm run typecheck
+ship-gate: repo check 2/5 `Lint`: npm run lint
+ship-gate: repo check 3/5 `Issue #29 tests`: npx jest src/core/__tests__/level-validation.test.ts
+ship-gate: repo check 4/5 `Test suite without the Windows symlink test`: npx jest -t "^(?!isDirectRun is true when run through a symlink)"
+ship-gate: repo check 5/5 `Build`: npm run build
+ship-gate: running your pr-precheck in live mode on fix-level-validation-29 (one sonnet call)...
+ship-gate: PASS. fix-level-validation-29 clears your manifest and your own rubric; the ship decision is now yours.
+  repo check Type check: ok (2s)
+  repo check Lint: ok (10s)
+  repo check Issue #29 tests: ok (2s)
+  repo check Test suite without the Windows symlink test: ok (4s)
+  repo check Build: ok (7s)
+  plan-fidelity [pass]: Diff touches only the two planned files; all four items implemented; extras (4 extra tests, namespace/env validation, LOGIXIA_LEVEL fall-through) are recorded as Deviations 1-3, and the local suite shortfall as Deviation 4.
+  description-fidelity [pass]: Description's eight tests, warn-once, setLevel rejection, env fall-through, and '946 passed, 1 failed' all match the diff and test_evidence.md.
+  test-evidence [pass]: Before/after table on 657e84e vs 7b8c920: setLevel('nope') gives "nope" with no warning before, "warn" with one warning after; DEBUG gives "DEBUG" before, "debug" after.
+  repo-checks [pass]: typecheck and lint exit 0; npm test 946 passed, 1 failed (Windows EPERM symlink test), the same test fails on pre-fix 657e84e (938 passed, 1 failed), so unrelated and disclosed.
+  diff-reviewable [pass]: Diff stat is 2 files, 261+/9-, every hunk tied to #29; the untracked 16.0.0, cd, dir, logixia/, type entries are not in main...HEAD.
+  standards-compliant [pass]: Template sections present, 'Closes #29', Conventional Commits title, full-suite box honestly unchecked; no AI-disclosure requirement stated in CONTRIBUTING.md or the template.
+
+**Scope.** The target is Logixia/logixia, a public repository. No AI-use policy is stated in CONTRIBUTING.md, the template, or any policy file, and nothing bans AI-assisted work, so the repo is in scope. This package is retrospective: PR #51 already merged, and no plan was posted on issue #29. That means the scope rule about reporting deviations upstream has no "plan A" to depart from. I graded the package as written. The procedure doesn't cover already-merged PRs, so I'm flagging that gap.
+
+**Result: accept.** All six required checks pass.
+
+- **plan-fidelity:** The diff touches only the two planned files. Every extra is a recorded deviation, and the planned work is present. `canonicalLevel()`, `_validLevel()`, validation in `_buildPerfCaches()`, the `setLevel()` refusal, and validation in `resolveEffectiveLevel()` are all in the diff. Deviation 4 records that the full suite isn't green locally, so the issue's "full jest passes" criterion is honestly not met here.
+- **description-fidelity:**
+  - The description matches the diff: normalization, validation of config, env and namespace levels, warn-once, `setLevel()` rejection, and eight tests (the diff has eight `it` blocks).
+  - It states the env fall-through behavior and the "946 passed, 1 failed" result, which agree with the evidence.
+  - One small point to tighten: "No public API changes" is true of signatures, but `setLevel()` now ignores invalid input.
+- **test-evidence:** The before/after table shows observable results on `657e84e` and `7b8c920`. Examples: `LOGIXIA_LEVEL=DEBUG` gives `"DEBUG"` and no debug output before, `"debug"` and debug printed after; `setLevel('nope')` gives `"nope"` and no warning before, `"warn"` plus one warning after. The warning text is quoted verbatim.
+- **repo-checks:** The checks CONTRIBUTING.md and the template require are typecheck, lint, and `npm test`. All three were run and their actual results recorded. The `npm test` failure is one Windows `EPERM` symlink test, which fails identically on pre-fix `657e84e` (938 passed, 1 failed), so it is unrelated. Build, format, and coverage are not template-required, and their non-runs are disclosed with CI results.
+- **diff-reviewable:** Two files with 261 insertions and 9 deletions, every hunk tied to #29. The untracked `16.0.0`, `cd`, `dir`, `logixia/`, and `type` entries in `git status` are not in the branch diff or commit. Don't `git add` them.
+- **standards-compliant:**
+  - The template sections are filled and the title is Conventional Commits.
+  - `Closes #29` is present.
+  - The unchecked "full suite passes" box is truthful.
+  - No AI-disclosure requirement exists in the repo, so none is required.
+
+**Voice-guide notes (no verdict effect):**
+- **Generic opener:** "This PR fixes log-level validation and normalization in Logixia" could fit any issue. Rule: Name the specific issue. Name `LOGIXIA_LEVEL`, `levelOptions.level`, and `setLevel()`.
+- **Vague "Previously" bullets:** "Uppercase levels… were not handled correctly" and "Invalid log levels were silently accepted" lack the observed values. Rule: Report evidence, not assumptions. For example: `getLevel()` returned `"DEBUG"` and the debug line was dropped.
+- **Reviewer note:** "Maintainer feedback on this behavior is welcome" is close to generic. Rule: Keep reviewer notes useful. Ask the focused question: should an invalid `LOGIXIA_LEVEL` fall to the configured level or straight to `info`?
+- **AI-use disclosure:** None appears. The repo doesn't require it, but your course practice is to disclose AI assistance in your own words, so add a line.
+GATE EXIT CODE: 0
+2026-10-23T14:58:00-07:00

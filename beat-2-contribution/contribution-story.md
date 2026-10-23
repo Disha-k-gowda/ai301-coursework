@@ -67,10 +67,53 @@ five checks passing, and the voice guard passed the final reproduction report. N
 draft was posted. These steps are described in Why I Chose This Issue and Reproduction
 Process.
 
-**Unit 7: Pending (ship-gate and gate manifest)**
+**Unit 7: Installed the ship-gate, wrote a sourced manifest, and ran the gate retrospectively
+on PR #51**
 
-Pending. As of 2026-10-18 I have not started the Unit 7 tool work. PR #51 merged on
-2026-10-23 (UTC), before the ship-gate existed, so the gate never ran on it.
+All of this happened on 2026-10-23, after PR #51 had merged (04:12:15 UTC), so the gate did
+not guard the real submission. It is a retrospective check of the branch that shipped.
+
+- Tool: the Unit 7 ship-gate (`~/.claude/ship-gate/check_gate.py`), which runs the must-pass
+  checks in my `ship-manifest.md` and then my own six-check pr-precheck rubric in live mode.
+  The install added the gate's hook next to the voice guard's, kept my old pr-precheck scope
+  as `scope.md.sandbox`, and created the manifest in my Logixia clone, excluded from git.
+- What it produced: one manual-doorway run (`check_gate.py --branch --base main`, with the
+  real PR title, the merged PR description, `plan.md`, `test_evidence.md`, and
+  `--issue https://github.com/Logixia/logixia/issues/29`), from 14:57 to 14:58 local time.
+  Verdict PASS, exit code 0. All five manifest checks passed (type check, lint, the issue's
+  8 tests, the test suite without the Windows symlink test, and build), and all six
+  pr-precheck checks passed (plan-fidelity, description-fidelity, test-evidence,
+  repo-checks, diff-reviewable, standards-compliant). I did not rerun it.
+- Difficulties: my pr-precheck still assumed the Path Review sandbox. Its procedure required
+  "the scoped Path Review repository", and its rubric, SKILL.md, and evidence guide pointed
+  at `.github/PULL_REQUEST_TEMPLATE.md` and `docs/CONTRIBUTING.md`, while Logixia tracks
+  `.github/pull_request_template.md` and a root `CONTRIBUTING.md`. `npm run format:check`
+  exited 1 in my checkout: `core.autocrlf=true` gives CRLF line endings, and Prettier
+  flagged 363 files (180 in the repo, 183 in a stray nested folder). The full `npm test`
+  still fails on the known Windows `EPERM` symlink test, as it does on the pre-fix commit.
+  Several of Logixia's checks (PR title, CodeQL, Dependency Review, Bundle Size, the Node
+  18/20/22 matrix) only run on GitHub, so I had to separate what I could run here from what
+  only CI showed.
+- What changed: I wrote the manifest from CONTRIBUTING.md, `ci.yml`, and my
+  `CLAUDE.local.md`, with a source for every row and a dated reason for every exclusion,
+  instead of dropping checks that would fail. I narrowed the test row to skip only the
+  `EPERM` test by name and verified it first through `cmd.exe` (946 passed, 1 skipped, 0
+  failed, exit 0). I replaced the Path Review assumptions in pr-precheck with wording that
+  follows the live scope, after backing up each file; the six checks and their pass and
+  fail conditions did not change. I wrote a retrospective `plan.md` from this story's
+  Solution Approach and a `test_evidence.md` that dates every result and separates saved
+  logs from results reported earlier, and I used PR #51's merged description unchanged as
+  `pr_draft.md`. My ship decision was not to ship: the PR was already merged, so I ran only
+  the manual doorway and never `gh pr create`.
+- Limitations: the full unfiltered Jest suite still fails locally on the `EPERM` test.
+  Dependency Review failed on PR #51, and I have not investigated why. The gate ran after
+  the merge, not before submission, so it shows the shipped branch would have cleared my
+  manifest and rubric, not that I checked it before shipping. pr-precheck also noted that my
+  procedure has no rule for an already-merged PR or for a plan that was never posted.
+- Evidence: [`evidence/unit7/unit7-ship-gate-run.txt`](evidence/unit7/unit7-ship-gate-run.txt)
+  (the full gate output) and
+  [`evidence/unit7/unit7-gate-log.txt`](evidence/unit7/unit7-gate-log.txt) (the gate-log
+  entry), each with a header recording the run.
 
 **Unit 8: Pending (PR-monitor and playbook)**
 
