@@ -27,24 +27,56 @@ only be tested on a real Gen1 Shelly device, so I added a newcomer-scope fail co
 work that needs physical hardware unless a mock or emulator is enough, and logged the change
 in scan-notes.md without rerunning the scan. Search ranking is still an open problem: all
 five top results tied at 0 comments, so update time favored brand-new issues in tiny repos.
-I then claimed and graded Logixia/logixia#119 and sbt/website#553, and both passed the
-required checks. (Logixia/logixia#119 was this issue's earlier identifier, before the Logixia
-repository was recreated. The current issue is Logixia/logixia#29.)
+I then graded sbt/website#553 with direct URL grading; it passed the required checks, and I
+posted a claim comment on it. This story originally also reported a direct grade of
+Logixia/logixia#119 that passed the required checks. (Logixia/logixia#119 was this issue's
+earlier identifier, before the Logixia repository was recreated. The current issue is
+Logixia/logixia#29.) I cannot verify that grade now: my current scout records
+(`scan-output.md`, `scan-notes.md`) hold no #119 grade, and #119 no longer exists in the
+recreated repository. My earlier work referenced issue #119 in the original repository,
+but I cannot verify whether I posted a claim comment before the repository was recreated.
 
-**Unit 6: Pending (voice-guard and repo-memory file)**
+**Unit 6: Installed the voice guard, patched the scout's scope check, wrote repo memory, and
+ran a retrospective claim and reproduction for #29**
 
-Pending. As of 2026-10-18 I have not started the Unit 6 tool work. I will record what I
-build, what breaks, and what I change when that unit happens.
+All of this work happened on 2026-10-23, after PR #51 had merged (04:12:15 UTC) and #29
+had closed, so none of it guided the implementation.
+
+I installed the voice guard. `check_voice.py` and `hooks-settings.json` live in
+`~/.claude/voice-guard/`, next to my voice guide, which is now the one canonical copy. The
+`voice-guide.md` files in repro-check, plan-check, and pr-precheck are one-line pointers to
+it. I added the Upstream section to the guide (claims, questions, pings), each rule with a
+wrong/right pair. The settings check printed "voice guard hook found", and the wiring test
+(`gh issue comment --help`) was stopped with "no body the guard can read", which is the
+expected pass. I replaced repro-check's and plan-check's sandbox scopes with the wild
+scopes, and patched the scout rubric so `scope-feasible` replaces `newcomer-scope`. A
+regrade under the new rubric turned geoff-davis/aiogzip#161 from accept to reject, because
+another contributor was assigned it on 2026-10-22. The regrade still accepted
+yfridelance/shelly-manager#7 (ambitious difficulty, weak fit): the new scope check no
+longer rejects hardware-only work, so my Unit 5 hardware fix no longer applies.
+`scan-notes.md` proposes filtering hardware issues at the ranking stage instead; I have not
+applied that yet. I also wrote `CLAUDE.local.md` in my
+Logixia clone and kept it out of git with `.git/info/exclude`.
+
+For #29 I ran the tools retrospectively. The scout's direct grade was accept with
+moderate difficulty, although the rubric should not have accepted an issue that was
+already closed. I wrote the claim I should have posted (`claim-draft.md`, never posted),
+and the voice guard passed it. I reproduced the issue on the pre-fix and fix commits
+(`repro-draft.md`). repro-check's final verdict on the full package was accept, with all
+five checks passing, and the voice guard passed the final reproduction report. Neither
+draft was posted. These steps are described in Why I Chose This Issue and Reproduction
+Process.
 
 **Unit 7: Pending (ship-gate and gate manifest)**
 
-Pending. As of 2026-10-18 I have not started the Unit 7 tool work. PR #51 was opened before
-the ship-gate existed, so the gate has not run on this branch yet.
+Pending. As of 2026-10-18 I have not started the Unit 7 tool work. PR #51 merged on
+2026-10-23 (UTC), before the ship-gate existed, so the gate never ran on it.
 
 **Unit 8: Pending (PR-monitor and playbook)**
 
-Pending. As of 2026-10-18 I have not started the Unit 8 tool work, and PR #51 has no
-maintainer activity for a monitor to read yet.
+Pending. As of 2026-10-18 I have not started the Unit 8 tool work. PR #51 merged on
+2026-10-23 (UTC) after one review comment, before the monitor existed, so no monitor ran
+on it.
 
 ---
 
@@ -58,9 +90,10 @@ which I found through the CodePath tracker and which issue-scout's direct URL gr
 accepted. I posted a claim comment there
 (https://github.com/sbt/website/issues/553#issuecomment-6243471487) and cloned the site, but
 I did not make any change or open a PR on sbt/website, so this story does not count it as a
-contribution. I moved to the Logixia logging issue instead. Issue-scout had graded it as
-Logixia/logixia#119, and it passed the required checks; after the repository was recreated,
-the same issue became Logixia/logixia#29.
+contribution. I moved to the Logixia logging issue instead. My earlier story reported that
+issue-scout graded it as Logixia/logixia#119 and that it passed the required checks, but my
+current scout records hold no #119 grade, so I cannot verify that now. After the
+repository was recreated, the same issue became Logixia/logixia#29.
 
 Logixia #29 is labeled `good first issue` and `hacktoberfest`, and it is unusually well
 scoped: it names the functions involved (`resolveInitialLevel`, `_buildPerfCaches`,
@@ -71,19 +104,33 @@ a real behavior change with tests rather than a one-line docs edit, so it stretc
 without being open-ended. I wanted to learn how to reproduce a bug as failing tests first,
 how a logging library resolves its level from config and environment variables, and how to
 get a PR through a project's own checks. On the tool: the scout held up on the issues I
-graded, but the wild scan exposed a hardware false positive (fixed) and a weak ranking signal
-(still open), as described below. My claim on #119 did not carry over to the recreated
-repository: #29 has no comments and no assignee. I linked my work to it with `Closes #29` in
-PR #51.
+graded, but the wild scan exposed a hardware false positive (fixed in Unit 5, then reopened
+when Unit 6 replaced `newcomer-scope`; see the Unit 6 Toolkit entry) and a weak ranking
+signal (still open), as described below. My earlier work referenced issue #119 in the original
+repository, but I cannot verify whether I posted a claim comment before the repository was
+recreated. On #29 I did not post a claim comment before implementing the fix, even though
+CONTRIBUTING.md asks contributors to comment first. #29 is now closed, with no comments and
+no assignee. I linked my work to it with `Closes #29` in PR #51.
+
+**Retrospective scout grade (2026-10-23).** For Unit 6 I graded #29 with issue-scout's
+direct mode. This was after PR #51 had merged and #29 had closed, so it played no part in
+choosing the issue. I ran it because repro-check's wild scope only grades drafts for
+issues the scout has graded. All five required checks passed and the verdict was accept,
+with a **moderate** difficulty note: the issue names the file and functions, but the work
+spans code plus a new test file. The accept is a rubric error: `unclaimed` only looks for
+an open PR, and no check asks whether the issue is still open, so a closed issue that is
+already fixed still passes. The entry in `scan-output.md` is labeled retrospective and
+"not available to take."
 
 **Toolkit**
 
 - Tool: issue-scout, used two ways: a wild GitHub scan driven by my written search strategy
-  and rubric, and direct URL grading of Logixia/logixia#119 (now #29) and sbt/website#553,
-  which I found through the CodePath tracker.
+  and rubric, and direct URL grading of sbt/website#553, which I found through the CodePath
+  tracker, and (as my earlier story reported) of Logixia/logixia#119, now #29.
 - What it produced: the wild scan searched 300 issues, kept 255, and graded 5 (4 accepted,
-  1 rejected). Direct URL grading passed both Logixia/logixia#119 and sbt/website#553 on the
-  required checks, and I chose the Logixia issue, now #29.
+  1 rejected). Direct URL grading passed sbt/website#553 on the required checks. My earlier
+  story reported the same for Logixia/logixia#119, but no #119 grade survives in my current
+  scout records. I chose the Logixia issue, now #29.
 - Difficulties: the rubric accepted yfridelance/shelly-manager#7, a false positive because it
   can only be tested on a real Gen1 Shelly device, and my fit profile says to avoid hardware
   work. Ranking was also weak: all five top results tied at 0 comments, so update time
@@ -92,6 +139,9 @@ PR #51.
   hardware, unless the issue says a mock or emulator is enough. Search ranking is still
   open; I would add a signal beyond comments and update time, such as repository activity,
   so ties stop favoring brand-new issues in tiny repos.
+- Unit 6 (retrospective): a direct grade of #29 on 2026-10-23, after the merge: accept,
+  moderate difficulty. It showed that my rubric accepts closed issues, which I have not
+  fixed yet.
 
 ---
 
@@ -193,6 +243,36 @@ got logged.
   worked, so I had to keep it working. The `setLevel('nope')` case did more than report a
   wrong level: it moved the effective threshold to `info`.
 
+**Retrospective reproduction (2026-10-23, after the merge)**
+
+For Unit 6 I reproduced the issue again, after PR #51 had merged. I extracted the pre-fix
+commit (`657e84e`) and the fix commit (`7b8c920`) into separate trees with `git archive`,
+linked each tree's `node_modules` to my clone's install with a directory junction, and ran
+a small Jest harness in both that records what it observes without asserting anything.
+Environment: Windows 11, Git Bash, Node.js v24.14.0, npm 11.9.0.
+
+| Case | Before the fix (`657e84e`) | After the fix (`7b8c920`) |
+|---|---|---|
+| `LOGIXIA_LEVEL=DEBUG` | `getLevel()` = `"DEBUG"`, debug line dropped | `"debug"`, debug printed |
+| `level: 'warning'` | `"warning"`, ran at info, no warning | `"info"`, one warning |
+| `warn`, then `setLevel('nope')` | `"nope"`, **info line printed** | `"warn"`, info dropped, one warning |
+| `debug`, then `setLevel('nope')` | `"nope"`, **debug line dropped** | `"debug"`, debug printed, one warning |
+| custom `kafka` | accepted, printed | same |
+| custom `Kafka` (mixed case) | `logger.kafka()` prints nothing | same, not in #29's scope |
+
+This confirmed by observation what I had found on 2026-10-18 by tracing the code:
+`setLevel('nope')` doesn't keep the old threshold, it resets it to `info`. The full suite
+gave the same results as before: 938 passed and 1 failed before the fix, 946 passed and 1
+failed after, exit 1 both times, with the same Windows `EPERM` symlink test failing in
+both. The harness, JSON output, and logs are saved in
+`ai301-unit6-starter/repro-evidence/`.
+
+**Retrospective claim draft (never posted).** I did not post a claim comment on #29 before
+implementing the fix, even though CONTRIBUTING.md asks contributors to comment first. For
+Unit 6 I wrote the claim I should have posted, `ai301-unit6-starter/claim-draft.md`,
+labeled as a retrospective practice draft. It was never posted, and no maintainer saw or
+approved it.
+
 **Toolkit**
 
 - Tool: Claude Code, used to draft the four regression tests from the issue's checklist,
@@ -206,6 +286,22 @@ got logged.
   already work.
 - What changed: I kept only tests whose failure I could explain from the source, and kept
   the passing `kafka` test as a guard against breaking custom levels.
+
+**Toolkit (Unit 6, retrospective claim and reproduction)**
+
+- Tool: the voice guard (`check_voice.py --draft`) and repro-check with its wild scope.
+- What it produced: the voice guard passed the claim draft twice (original and revised)
+  and the final reproduction report once. repro-check first refused to grade, because the scout had no record of #29. After the
+  retrospective scout grade, it accepted the claim draft, then rejected the full
+  reproduction on `steps-reproducible`. After I revised it, the final verdict was accept,
+  with all five checks passing.
+- Difficulties: the first reproduction draft told readers to copy a harness they couldn't
+  see, and `7b8c920` can't be fetched from a plain upstream clone. repro-check also
+  flagged that my claim question didn't show what I had already checked.
+- What changed: I embedded the full harness, added
+  `git fetch https://github.com/Logixia/logixia.git pull/51/head`, said where every
+  command runs and that `REPRO_OUT` is required, and added the evidence I had found in the
+  code to the claim question.
 
 ---
 
@@ -306,10 +402,14 @@ I prove the fix with the same commands before and after, plus the repository's o
 - **Full suite:** `npx jest` gave 946 passing tests and 1 failure. The failure is the same
   Windows `EPERM` symlink test in `src/cli/__tests__/index.test.ts` that failed in my
   baseline (938 passing + 1 failing before; the 8 new tests account for the difference).
-- **Upstream CI:** the `PR title` workflow passed on PR #51. The `CI`,
-  `CodeQL Security Analysis`, `Dependency Review`, and `Bundle Size` workflows show
-  `action_required`, meaning they wait for a maintainer to approve them. So as of
-  2026-10-18 they have produced no test results.
+- **Upstream CI:** after a maintainer approved the runs, PR #51's checks passed for
+  Quality (lint, typecheck, format), Test on Node 18, 20, and 22, Build, Bundle Size,
+  CodeQL, and the Conventional PR title. `Dependency Review` failed; I haven't looked into
+  why, and the PR was merged with that check failing. `Semantic Release` was skipped.
+- **Retrospective rerun (2026-10-23):** the same commands on the fix commit gave the same
+  results (8/8, 31/31, typecheck and lint clean, 946 passed and 1 failed with exit 1). A
+  full run on the pre-fix commit gave 938 passed and 1 failed with exit 1, with the same
+  `EPERM` test failing.
 
 **Toolkit**
 
@@ -359,7 +459,22 @@ defect (an invalid `LOGIXIA_LEVEL` overriding a valid configured level), fixed i
 
 Committed `7b8c920` (`fix(config): validate and normalize log levels`), pushed the branch
 to my fork, and opened PR #51 using the repository's pull request template. The PR title
-check passed; the other workflows and the review are waiting on a maintainer.
+check passed; the other workflows and the review were waiting on a maintainer.
+
+**2026-10-23 (UTC): review and merge**
+
+webcoderspeed, the repository's code owner, commented on PR #51: the fix "reads well", and
+they agreed with letting an invalid `LOGIXIA_LEVEL` fall through to the next configured
+level. They added a non-blocking note that `resolveInitialLevel()` could return the
+canonical value. They merged PR #51 at 04:12:15 UTC as `2d0bcde`, and #29 closed as
+completed.
+
+**2026-10-23: Unit 6 retrospective work (after the merge)**
+
+Installed the voice guard, switched to the wild scopes, patched the scout rubric, and wrote
+`CLAUDE.local.md`. Graded #29 retrospectively (accept, moderate), drafted the claim I
+should have posted, reproduced the issue on both commits, and revised both drafts until
+repro-check accepted them. Nothing was posted.
 
 **Toolkit**
 
@@ -394,12 +509,17 @@ that explanation.
 
 **Maintainer Feedback:**
 
-- 2026-10-18: None yet. PR opened; review required, and no comments or reviews so far.
-- Pending: how I address feedback will be recorded here when it arrives.
+- 2026-10-18: none when the PR was opened.
+- 2026-10-23 (UTC): webcoderspeed, the repository's code owner, confirmed that upper-case
+  environment levels work, that unknown levels warn once per source, and that
+  `setLevel('nope')` leaves the threshold alone. They agreed with the fall-through for an
+  invalid `LOGIXIA_LEVEL` ("ignoring a typo beats silently switching to it"). They also
+  suggested that `resolveInitialLevel()` return the canonical value rather than `envLevel`
+  as written, and said it was not a blocker. I didn't push a follow-up change; the PR
+  merged with its single commit, `7b8c920`.
 
-**Status:** Awaiting review (opened 2026-10-18; GitHub shows "review required"; the CI,
-CodeQL, Dependency Review, and Bundle Size workflows are waiting for maintainer approval to
-run).
+**Status:** Merged 2026-10-23 04:12:15 UTC by webcoderspeed (merge commit `2d0bcde`).
+Issue #29 closed as completed at the same time.
 
 **Toolkit**
 
@@ -408,10 +528,11 @@ run).
   `.github/pull_request_template.md` and its Conventional Commits title check.
 - What it produced: a PR description that maps each change to the issue and reports the
   real test results, including the one failure. The `Conventional PR title` check passed.
-- Difficulties: I could not show a fully green CI run. Four upstream workflows are waiting
-  for maintainer approval, and the local suite has one Windows-only failure.
+- Difficulties: I could not show a fully green CI run. When I opened the PR, four upstream
+  workflows were waiting for maintainer approval (once approved, all passed except
+  `Dependency Review`), and the local suite has one Windows-only failure.
 - What changed: I stated both limits plainly in the PR instead of implying a clean run.
-  Monitoring the PR with the Unit 8 tool is pending.
+  The PR merged before the Unit 8 monitor existed.
 
 ---
 
@@ -444,8 +565,12 @@ run).
 
 **What I'd Do Differently Next Time**
 
-- Re-post my claim on #29 once the repository was recreated, and release my earlier claim on
-  sbt/website#553 as soon as I decide to move on, so maintainers are not left guessing.
+- Grade the issue with the scout and post my claim before I write any code. I did not post a
+  claim on #29 before implementing, and for Unit 6 I had to grade it and draft its claim
+  after the merge, which works as practice but is no substitute for a real claim on the
+  thread.
+- Release my earlier claim on sbt/website#553 as soon as I decide to move on, so
+  maintainers are not left guessing.
 - Commit the failing tests on their own before the fix, so the reproduction has its own
   commit link instead of living in the fix commit.
 - Ask "which inputs does this not test?" right after the AI-drafted tests first pass, rather
