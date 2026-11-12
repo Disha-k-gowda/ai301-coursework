@@ -183,9 +183,18 @@ graded, but the wild scan exposed a hardware false positive (fixed in Unit 5, th
 when Unit 6 replaced `newcomer-scope`; see the Unit 6 Toolkit entry) and a weak ranking
 signal (still open), as described below. My earlier work referenced issue #119 in the original
 repository, but I cannot verify whether I posted a claim comment before the repository was
-recreated. On #29 I did not post a claim comment before implementing the fix, even though
-CONTRIBUTING.md asks contributors to comment first. #29 is now closed, with no comments and
-no assignee. I linked my work to it with `Closes #29` in PR #51.
+recreated.
+On #29 I did not post a claim comment before implementing the fix, even though
+CONTRIBUTING.md asks contributors to comment first. Issue #29 closed when PR #51
+was merged. I linked my work to it with `Closes #29` in PR #51.
+
+**Post-merge issue comment:** I later posted a completion comment on Logixia #29,
+documenting the merged fix in PR #51 and acknowledging that I had not claimed
+the issue before implementation.
+
+**Comment URL:** https://github.com/Logixia/logixia/issues/29#issuecomment-6390397562
+
+
 
 **Retrospective scout grade (2026-10-23).** For Unit 6 I graded #29 with issue-scout's
 direct mode. This was after PR #51 had merged and #29 had closed, so it played no part in
